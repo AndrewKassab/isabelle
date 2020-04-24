@@ -17,7 +17,6 @@ client = discord.Client()
 server = None
 channel = None
 
-random_messages = None
 final_sayings = None
 dailies = None
 
@@ -30,10 +29,9 @@ def construct_daily_message():
     dailies_string = 'Daily Tasks:\n'
     for daily in dailies:
         dailies_string = dailies_string + daily + '\n'
-    unrelated_message = random.choice(unrelated_messages)
     final_saying = random.choice(final_sayings)
     greeting = f"Hello Villagers!\n\nRight now on {SERVER_NAME}, it's {now_string}"
-    return greeting + "\n\n" + event_string + dailies_string + "\n" + unrelated_message + "\n\n" + final_saying
+    return greeting + "\n\n" + event_string + dailies_string + "\n" + final_saying
 
 
 @client.event
@@ -53,7 +51,6 @@ async def on_ready():
 
 with open(data_file_path, 'r') as data_file:
     isabelle_data = json.load(data_file)
-unrelated_messages = isabelle_data['unrelated_messages']
 final_sayings = isabelle_data['final_sayings']
 dailies = isabelle_data['dailies']
 
