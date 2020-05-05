@@ -2,7 +2,7 @@ import os
 import datetime 
 import random
 import json
-
+import time
 import discord
 
 CLIENT_ID = os.getenv('ISABELLE_CLIENT_ID')
@@ -24,7 +24,7 @@ def construct_daily_message():
     now = datetime.datetime.now()
     now_string = now.strftime("%I:%M %p on %A, %B, %dth, %Y.")
     event_string = ''
-    if (now.strftime("%A") == 'Sunday' and now.hour < 12 and now.hour > 6):
+    if (now.strftime("%A") == 'Sunday'):
         event_string += "Don't forget to buy turnips today! Daisy is leaving at 12PM!\n"
     dailies_string = 'Daily Tasks:\n'
     for daily in dailies:
@@ -36,15 +36,23 @@ def construct_daily_message():
 
 @client.event
 async def on_ready():
-    for guild in client.guilds:
-        if guild.name == SERVER_NAME:
-            break
-    for chat in guild.channels:
-        if chat.name == 'animal-crossing':
-            channel = chat
-            break
     print(f'{client.user} has connected to Discord!')
 
+    # Every 24 hours
+    while True:
+        await send_daily_message()
+        time.sleep(86400)
+
+
+@client.event
+async def send_daily_message():
+    for guild in client.guilds:
+        if guild.name == "Test Server":
+            break
+    for chat in guild.channels:
+        if chat.name == 'general':
+            channel = chat
+            break
     daily_message = construct_daily_message()
     await channel.send(daily_message)
 
