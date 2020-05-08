@@ -8,9 +8,9 @@ import discord
 CLIENT_ID = os.getenv('ISABELLE_CLIENT_ID')
 CLIENT_SECRET = os.getenv('ISABELLE_CLIENT_SECRET')
 TOKEN = os.getenv('ISABELLE_TOKEN')
-SERVER_NAME = os.getenv('SERVER_NAME')
-SERVER_ID = os.getenv('SERVER_ID')
-CHANNEL_ID = os.getenv('AC_CHANNEL_ID')
+SERVER_NAME = 'Major Depressive Disorder Anonymous'
+CHANNEL_NAME = 'animal-crossing'
+
 data_file_path = ('isabelle.json')
 
 client = discord.Client()
@@ -49,10 +49,10 @@ async def on_ready():
 @client.event
 async def send_daily_message():
     for guild in client.guilds:
-        if guild.name == "Test Server":
+        if guild.name == SERVER_NAME: 
             break
     for chat in guild.channels:
-        if chat.name == 'general':
+        if chat.name == CHANNEL_NAME:
             channel = chat
             break
     daily_message = construct_daily_message()
