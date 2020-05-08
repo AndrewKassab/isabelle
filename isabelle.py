@@ -37,11 +37,13 @@ def construct_daily_message():
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
-
-    # Every 24 hours
+    # Send message once per day at 9am
     while True:
-        await send_daily_message()
-        time.sleep(86400)
+        time.sleep(60)
+        now = datetime.datetime.now()
+        if now.hour == 9:
+            send_daily_message()
+            time.sleep(82800)
 
 
 @client.event
